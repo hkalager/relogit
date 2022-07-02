@@ -3,17 +3,18 @@
 """
 Created on Fri Jul  1 16:39:02 2022
 
-This example illustrates how RE-Logit compares to Logit for a hypothetical case.
+This example illustrates how RE-Logit compares to Logit for a toy problem.
 
 See the link below for details of this example:
 https://blog.methodsconsultants.com/posts/bias-adjustment-for-rare-events-logistic-regression-in-r/
 
-@author: arman
+@author: Arman Hassanniakalager GitHub: https://github.com/hkalager
+Common disclaimers apply. Subject to change at all time.
+Last review: 02/07/2022
 """
 
 import numpy as np
 from relogit_module import relogit
-from statsmodels.discrete.discrete_model import Logit
 from statsmodels.tools import add_constant
 import matplotlib.pyplot as plt
 from scipy.stats import norm
@@ -56,23 +57,23 @@ true_prob_test=true_prob[idx_test]
 X_train=add_constant(X_train)
 X_test=add_constant(X_test)
 
-logit_model=Logit(y_train,X_train).fit(disp=0)
-predicted_logit=logit_model.predict(X_test)
-coeffs_logit=logit_model.params
+# logit_model=Logit(y_train,X_train).fit(disp=0)
+# predicted_logit=logit_model.predict(X_test)
+# coeffs_logit=logit_model.params
 
 relogit_model=relogit(y_train,X_train)
-predicted_relogit=relogit_model.predict(X_test)
-coeffs=relogit_model.unbiased_params
-
+predicted_relogit,coeffs_unbiased,predicted_logit,coeff_biased=relogit_model.predict(X_test)
+logit_summary=relogit_model.base.summary()
+print(logit_summary)
 mae_logit=np.mean(np.abs(predicted_logit-true_prob_test))
 mae_relogit=np.mean(np.abs(predicted_relogit-true_prob_test))
 print('MAE='+str(np.round(mae_logit,4))+' for logit vs '+str(np.round(mae_relogit,4))+' for relogit')
 print('MAE_logit is '+str(np.round(mae_logit/mae_relogit,2))+' MAE_relogit')
 
 fig, ax = plt.subplots()
-ax.plot(predicted_logit,'-r',label='Logit')
-ax.plot(predicted_relogit,'-b',label='RE-Logit')
-ax.plot(true_prob_test,'-g',label='Target')
+ax.plot(predicted_logit,'-r',label='Prob Logit')
+ax.plot(predicted_relogit,'-b',label='Prob RE-Logit')
+ax.plot(true_prob_test,'-g',label='True Prob')
 ax.set_yscale('logit')
 ax.set_ylabel('predicted value')
 ax.legend(loc=4)

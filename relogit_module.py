@@ -11,7 +11,7 @@ The R software is available at: https://zeligproject.org/
 @author: Arman Hassanniakalager GitHub: https://github.com/hkalager
 Common disclaimers apply. Subject to change at all time.
 
-Last review: 01/07/2022
+Last review: 02/07/2022
 """
 
 import numpy as np
@@ -28,7 +28,7 @@ exp=np.exp
 
 class relogit:
     
-    __version__='1.0.0'
+    __version__='1.0.1'
     def __init__(self, Y,X,add_const=False):
         '''
         
@@ -62,7 +62,7 @@ class relogit:
         e=0.5*diag(q)*(2*pred-1)
         #bias <- (solve(t(X_matrix) %*% W %*% X_matrix) %*% t(X_matrix) %*% W %*% e)
         bias=dot(dot(dot(inv(dot(dot(t(X),w),X)),t(X)),w),e)
-        self.base=base_model
+        self.base=fitted_model
         self.X=X
         self.Y=Y
         self.unbiased_params=params-bias
@@ -70,6 +70,34 @@ class relogit:
         self.a_c=add_const
     
     def predict(self,X_new=[]):
+        '''
+        Parameters
+        ----------
+        X_new : array_like, optional
+            DESCRIPTION. A nobs x k array where nobs is the number of observations and k is 
+            the number of regressors. An intercept is added by setting add_const
+            to True. The default is [] which uses the training X as the predictor.
+
+        Returns
+        -------
+        unbiased_pred : array_like
+            A nobs x 1 array where nobs is the number of observations of 
+            predictions for probability of Y=1 for each observation using 
+            RE-Logit
+        
+        unbiased_params : array_like
+            A k x 1 array where k is the number of regressors showing of unbiased
+            parameters in the RE-Logit
+        
+        biased_pred : array_like
+            A nobs x 1 array where nobs is the number of observations of 
+            predictions for probability of Y=1 for each observation using 
+            Logit
+        
+        unbiased_params : array_like
+            A k x 1 array where k is the number of regressors showing of biased
+            parameters in the Logit
+        '''
         if len(X_new)>0:
             X=X_new
             if self.a_c is True:
@@ -80,5 +108,7 @@ class relogit:
         unbiased_params=self.unbiased_params
         unbiased_pred=(1+exp(-1*dot(X,unbiased_params)))**-1
         self.unbiased_pred=unbiased_pred
-        return unbiased_pred
+        biased_params=self.base.params
+        biased_pred=self.base.predict(X)
+        return unbiased_pred,unbiased_params,biased_pred,biased_params
         
