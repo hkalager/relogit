@@ -1,13 +1,10 @@
 # relogit
- A simple wrapper class to estimate a Rare Event Logit model as in King and Zeng (2001)
+ A simple wrapper class to estimate a Rare Event Logit model of King and Zeng (2001) in Python.
 
 # Warning:
-* This is an exploratory study with no profitable strategy in sight.
-* Provision of codes is not an investment advice.
 * All codes and analyses are subject to error.
 
-
-# Replication:
+# User guide:
 
 – In a terminal window install the requirements as:
 
@@ -19,13 +16,30 @@
 
   You will be asked to enter your credentials for accessing WRDS at this stage.
 
-– Specify the module using `study_period` and `horizon` as:
+– Specify the function using the following variables:
+`
+Y : array_like
+            A 1-d endogenous response variable. See statsmodels guidance
+X : array_like
+            A nobs x k array where nobs is the number of observations and k is 
+            the number of regressors. An intercept is added by setting add_const
+            to True.
+add_const : Boolean, optional
+            Whether to add a constant into X. The default is False.
+disp : Boolean, optional
+            Whether to display details for fitting. The default is False.
+            See statsmodels guidance  
 
-` a=relogit(Y, X, add_const=False)`
 
+– Train a RE-Logit model by ` relogit_model=relogit(Y, X, *optional keywords*)`
 
+– Get unbiased probability estimation, unbiased coefficients 
+
+`predicted_relogit,coeffs_unbiased,predicted_logit,coeff_biased=relogit_model.predict(X_test)`
+
+– For more see the accompanying example script `vignette.py`
 
 # Packages 
-The following packages in Python to run these scripts:
+The following packages are required to use this module:
 - Numpy
 - statsmodels

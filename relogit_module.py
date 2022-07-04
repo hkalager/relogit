@@ -11,7 +11,7 @@ The R software is available at: https://zeligproject.org/
 @author: Arman Hassanniakalager GitHub: https://github.com/hkalager
 Common disclaimers apply. Subject to change at all time.
 
-Last review: 02/07/2022
+Last review: 04/07/2022
 """
 
 import numpy as np
@@ -28,8 +28,8 @@ exp=np.exp
 
 class relogit:
     
-    __version__='1.0.1'
-    def __init__(self, Y,X,add_const=False):
+    __version__='1.0.2'
+    def __init__(self, Y,X,add_const=False,disp=0):
         '''
         
         Parameters
@@ -42,6 +42,9 @@ class relogit:
             to True.
         add_const : Boolean, optional
             Whether to add a constant into X. The default is False.
+        disp : Boolean, optional
+            Whether to display details for fitting. The default is False.
+            See statsmodels guidance  
 
         Returns
         -------
@@ -51,7 +54,7 @@ class relogit:
         if add_const is not False:
             X=add_constant(X)
         base_model=Logit(Y,X)
-        fitted_model=base_model.fit(disp=0)
+        fitted_model=base_model.fit(disp=disp)
         params=fitted_model.params
         pred=fitted_model.predict()
         w=diag(pred*(1-pred))
