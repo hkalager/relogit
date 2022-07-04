@@ -2,7 +2,7 @@
  A simple wrapper class to estimate a Rare Event Logit model of King and Zeng (2001) in Python.
 
 # Warning:
-* All codes and analyses are subject to error.
+* This module is provided 'as is' and is prone to errors. 
 
 # User guide:
 
