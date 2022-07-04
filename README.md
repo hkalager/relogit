@@ -43,11 +43,11 @@ disp : Boolean, optional
 
 `predicted_relogit,coeffs_unbiased = relogit_model.predict(X_test)`
 
-– Get additional estimations of probability `predicted_logit` and coefficients `coeff_biased` by the Logit for the same input `X_test` as
+– Get additional estimations of probability `predicted_logit` and coefficients `coeff_biased` by the Logit for the same input `X_test` as:
 
 `predicted_relogit,coeffs_unbiased,predicted_logit,coeff_biased = relogit_model.predict(X_test)`
 
-– For more see the accompanying example script `vignette.py`
+– For more see the accompanying example script [`vignette.py`](vignette.py)
 
 # Packages 
 The following packages are required to use this module:
