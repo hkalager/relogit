@@ -12,7 +12,7 @@
 
 – In Python environment import the relogit module as:
 
-` from relogit_module import relogit`
+` from relogit import relogit`
 
   You will be asked to enter your credentials for accessing WRDS at this stage.
 
