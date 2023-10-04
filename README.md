@@ -14,8 +14,6 @@
 
 ` from relogit import relogit`
 
-  You will be asked to enter your credentials for accessing WRDS at this stage.
-
 – Specify the function using the following variables:
 
 ```
